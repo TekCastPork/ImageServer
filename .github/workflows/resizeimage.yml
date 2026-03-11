@@ -1,0 +1,29 @@
+name: Resize images
+
+on:
+  push:
+    branches:
+      - stage
+
+jobs:
+  build:
+    name: Resize Images
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout stage
+        uses: actions/checkout@v6
+        with:
+          ref: stage
+      - name: Resize Images
+        uses: xprilion/img-resizer-inplace@v1
+        with:
+          target: "docs/assets"
+          dimensions: "x2048>"
+      - name: Push
+        uses: s0/git-publish-subdir-action@develop
+        env:
+          REPO: self
+          BRANCH: test
+          FOLDER: docs
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      
