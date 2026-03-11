@@ -5,6 +5,9 @@ on:
     branches:
       - stage
 
+permissions:
+  contents: write
+
 jobs:
   build:
     name: Resize Images
@@ -19,11 +22,9 @@ jobs:
         with:
           target: "docs/assets"
           dimensions: "x2048>"
-      - name: Push
-        uses: s0/git-publish-subdir-action@develop
-        env:
-          REPO: self
-          BRANCH: test
-          FOLDER: docs
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Deploy
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./
       
